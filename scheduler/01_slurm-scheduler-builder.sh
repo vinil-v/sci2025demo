@@ -14,7 +14,7 @@ echo "--------------------------------------------------------------------------
 echo " "
 # Prompt for Cluster Name
 read -p "Enter Cluster Name: " cluster_name
-read -p "Enter the Slurm version to install (You get this from the cyclecloud_build_cluster.sh): " SLURM_VERSION
+read -p "Enter the Slurm version to install (You get this from the cyclecloud_build_cluster.sh, eg:24.05.4-2): " SLURM_VERSION
 
 ip_address=$(hostname -I | awk '{print $1}')
 echo "------------------------------------------------------------------------------------------------------------------------------"
@@ -286,14 +286,14 @@ SlurmdLogFile=/var/log/slurmd/slurmd.log
 # or just add --switches 1 to your submission scripts
 # JobSubmitPlugins=lua
 PrivateData=cloud
-PrologSlurmctld=/opt/azurehpc/slurm/prolog.sh
+#PrologSlurmctld=/opt/azurehpc/slurm/prolog.sh
 TreeWidth=65533
 ResumeTimeout=1800
 SuspendTimeout=600
 SuspendTime=300
-ResumeProgram=/opt/azurehpc/slurm/resume_program.sh
-ResumeFailProgram=/opt/azurehpc/slurm/resume_fail_program.sh
-SuspendProgram=/opt/azurehpc/slurm/suspend_program.sh
+#ResumeProgram=/opt/azurehpc/slurm/resume_program.sh
+#ResumeFailProgram=/opt/azurehpc/slurm/resume_fail_program.sh
+#SuspendProgram=/opt/azurehpc/slurm/suspend_program.sh
 SchedulerParameters=max_switch_wait=24:00:00
 # Only used with dynamic node partitions.
 MaxNodeCount=10000
@@ -339,7 +339,8 @@ ln -s "$sched_dir/cgroup.conf" /etc/slurm/cgroup.conf
 ln -s "$sched_dir/accounting.conf" /etc/slurm/accounting.conf
 ln -s "$sched_dir/azure.conf" /etc/slurm/azure.conf
 ln -s "$sched_dir/gres.conf" /etc/slurm/gres.conf 
-touch "$sched_dir"/gres.conf "$sched_dir"/azure.conf
+ln -s "$sched_dir/partitions.conf" /etc/slurm/partitions.conf
+touch "$sched_dir"/gres.conf "$sched_dir"/azure.conf "$sched_dir"/partitions.conf 
 chown  slurm:slurm "$sched_dir"/*.conf
 chmod 644 "$sched_dir"/*.conf
 chown slurm:slurm /etc/slurm/*.conf

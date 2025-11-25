@@ -14,7 +14,7 @@ echo "--------------------------------------------------------------------------
 echo " "
 # Prompt for Cluster Name
 read -p "Enter Cluster Name: " cluster_name
-read -p "Enter the Slurm version to install (You get this from the cyclecloud_build_cluster.sh): " SLURM_VERSION
+read -p "Enter the Slurm version to install (24.05.4-2): " SLURM_VERSION
 read -p "Enter the NFSServer IP Address (This is the IP of the scheduler node): " ip_address
 
 echo "------------------------------------------------------------------------------------------------------------------------------"

@@ -28,10 +28,3 @@ fi
 mkdir -p /shared/home/$username
 useradd -g $gid -u $uid -d /shared/home/$username -s /bin/bash $username
 chown -R $username:$username /shared/home/$username
-
-# Switch to user to perform directory and file operations
-su - $username -c "mkdir -p /shared/home/$username/.ssh"
-su - $username -c "ssh-keygen -t rsa -N '' -f /shared/home/$username/.ssh/id_rsa"
-su - $username -c "cat /shared/home/$username/.ssh/id_rsa.pub >> /shared/home/$username/.ssh/authorized_keys"
-su - $username -c "chmod 600 /shared/home/$username/.ssh/authorized_keys"
-su - $username -c "chmod 700 /shared/home/$username/.ssh"
