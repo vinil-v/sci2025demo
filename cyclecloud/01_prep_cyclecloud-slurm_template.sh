@@ -2,7 +2,7 @@
 # This script need to run on cyclecloud VM.
 # This script will check the slurm version and project version and create a headless template
 # Author : Vinil Vadakkepurakkal
-# Date : 10/02/2025
+# Date : 23/11/2025
 # Command to execute
 
 output=$(sudo /opt/cycle_server/cycle_server execute -format json 'SELECT * FROM Cloud.Project WHERE Name=="slurm"')

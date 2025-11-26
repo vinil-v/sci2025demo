@@ -2,7 +2,7 @@
 # This script need to run on cyclecloud VM.
 # This script will import the cluster to cyclecloud
 # Author : Vinil Vadakkepurakkal
-# Date : 10/02/2025
+# Date : 23/11/2025
 set -e
 read -p "Enter Cluster Name: " CLUSTER_NAME
 echo "Cluster Name: $CLUSTER_NAME"

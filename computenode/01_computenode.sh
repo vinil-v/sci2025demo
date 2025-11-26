@@ -1,5 +1,5 @@
 #!/bin/sh
-# This script builds a Compute node for cloud bursting with Azure CycleCloud
+# This script builds a Compute node for on premises Slurm cluster
 # Author : Vinil Vadakkepurakkal
 # Date : 24/11/2025
 

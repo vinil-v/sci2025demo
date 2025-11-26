@@ -4,7 +4,7 @@
 # This script is used to install the CycleCloud Slurm integration package and configure the autoscaler
 # This script is intended to be run on the external Slurm scheduler
 # Author : Vinil Vadakkepurakkal
-# Date : 10/02/2025
+# Date : 24/11/2025
 set -e
 if [ $(whoami) != root ]; then
   echo "Please run as root"

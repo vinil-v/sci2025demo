@@ -1,10 +1,9 @@
 #!/bin/bash
 # Create a shared home directory for Test user
 # Make sure to replace the username, gid, and uid with the desired values
-# In Cyclecloud, user is created with the username and uid and gid are 20001
-# We need to make sure that we create the proper uid and gid for the user in scheduler.
+## We need to make sure that we create the proper uid and gid for the user in scheduler.
 # Author : Vinil Vadakkepurakkal
-# Date : 10/2/2025
+# Date : 26/11/2025
 set -e
 if [ $(whoami) != root ]; then
   echo "Please run as root"
