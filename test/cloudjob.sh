@@ -2,7 +2,7 @@
 #SBATCH --job-name=my_cloudjob            # Job name
 #SBATCH --output=output_%j.txt       # Standard output (%j = job ID)
 #SBATCH --error=error_%j.txt         # Standard error
-#SBATCH --partition=hpc         # Partition/queue name
+#SBATCH --partition=oncloudhpc         # Partition/queue name
 #SBATCH --nodes=2                  # Number of nodes
 
 echo "Job started on $(date)"
