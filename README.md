@@ -1,2 +1,2 @@
-# sci2025demo
-SCI 2025 Demo scripts
+#cyclecloud-hybrid-hpc-lab
+-- details coming soon -- 
