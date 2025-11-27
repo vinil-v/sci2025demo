@@ -15,4 +15,3 @@ scontrol show hostname $SLURM_JOB_NODELIST | sort -u > nodefile-$SLURM_JOB_ID
 mpirun -np 2 --hostfile nodefile-$SLURM_JOB_ID -genv I_MPI_DEBUG=5 -genv I_MPI_HYDRA_IFACE=ib0 -genv I_MPI_FABRICS=shm:ofi -genv UCX_TLS=dc,xpmem,self IMB-MPI1 PingPong
 
 echo "Job finished on $(date)"
-

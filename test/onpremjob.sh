@@ -1,16 +1,13 @@
 #!/bin/bash
-#SBATCH --job-name=my_job            # Job name
-#SBATCH --output=output_%j.txt       # Standard output (%j = job ID)
-#SBATCH --error=error_%j.txt         # Standard error
-#SBATCH --partition=onprem         # Partition/queue name
-#SBATCH --nodes=1                    # Number of nodes
+#SBATCH --job-name=mpi-test
+#SBATCH --nodes=1
+#SBATCH --ntasks=4
+#SBATCH --time=00:05:00
+#SBATCH --partition=onprem   # or oncloudhpc etc.
 
-echo "Job started on $(date)"
+echo "Running on host: $(hostname)"
+echo "SLURM_NTASKS = $SLURM_NTASKS"
+module load mpi/impi-2021
 
-# Load modules if needed
- module load mpi/impi-2021
-
-# Run your application
-mpirun -np 2 IMB-MPI1 PingPong
-
-echo "Job finished on $(date)"
+mpirun -np $SLURM_NTASKS ./hello_mpi
+echo "Job completed."
