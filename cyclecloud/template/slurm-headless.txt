@@ -12,7 +12,7 @@ Autoscale = $Autoscale
 
     [[node defaults]]
     CloudInit = '''#!/bin/sh
-echo "<IP address>   <scheduler hostname>" >> /etc/hosts
+echo "search hpc.internal" >> /etc/resolv.conf
 '''
     UsePublicNetwork = $UsePublicNetwork
     Credentials = $Credentials    

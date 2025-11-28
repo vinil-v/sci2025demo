@@ -346,6 +346,10 @@ chown slurm:slurm /etc/slurm/*.conf
 # Set up log and spool directories
 mkdir -p /var/spool/slurmd /var/spool/slurmctld /var/log/slurmd /var/log/slurmctld
 chown slurm:slurm /var/spool/slurmd /var/spool/slurmctld /var/log/slurmd /var/log/slurmctld
+
+# Updating DNS resolution for Cluster internal domain
+echo "search hpc.internal" >> /etc/resolv.conf
+
 echo " "
 echo "------------------------------------------------------------------------------------------------------------------------------"
 echo "Slurm configured"

@@ -241,6 +241,9 @@ chown slurm:slurm /etc/slurm/*.conf
 mkdir -p /var/spool/slurmd  /var/log/slurmd 
 chown slurm:slurm /var/spool/slurmd  /var/log/slurmd 
 
+# Updating DNS resolution for Cluster internal domain
+echo "search hpc.internal" >> /etc/resolv.conf
+
 echo "------------------------------------------------------------------------------------------------------------------------------"
-echo "Slurm configured"
+echo "Slurm configured - you need to start slurmd service to join the cluster"
 echo "------------------------------------------------------------------------------------------------------------------------------"
