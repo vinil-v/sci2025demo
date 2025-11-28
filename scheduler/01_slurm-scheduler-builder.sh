@@ -348,7 +348,13 @@ mkdir -p /var/spool/slurmd /var/spool/slurmctld /var/log/slurmd /var/log/slurmct
 chown slurm:slurm /var/spool/slurmd /var/spool/slurmctld /var/log/slurmd /var/log/slurmctld
 
 # Updating DNS resolution for Cluster internal domain
-echo "search hpc.internal" >> /etc/resolv.conf
+mkdir -p /etc/systemd/resolved.conf.d
+cat <<EOF >/etc/systemd/resolved.conf.d/dns-search.conf
+[Resolve]
+Domains=hpc.internal
+EOF
+
+systemctl restart systemd-resolved
 
 echo " "
 echo "------------------------------------------------------------------------------------------------------------------------------"
