@@ -192,7 +192,7 @@ This Lab focuses on deploying the foundational Azure-based HPC environment using
 - [CycleCloud CLI Reference](https://learn.microsoft.com/en-us/azure/cyclecloud/cli?view=cyclecloud-8)
 
 
-### 🚀 Lab 1 Video Tutorial: Creating Azure-Only HPC Cluster
+### Lab 1 Video Tutorial: Creating Azure-Only HPC Cluster
 
 [![Lab 1 – Creating Azure-Only HPC Cluster](https://img.youtube.com/vi/CkzIVCgrdI8/maxresdefault.jpg)](https://www.youtube.com/watch?v=CkzIVCgrdI8)
 
@@ -327,7 +327,10 @@ Follow these steps to configure the Slurm compute node:
 
 At this point, the standalone Slurm cluster running in Azure has been successfully deployed and validated.
 
-**Lab 2 Video Tutorial**: [On-Premises Cluster Simulation](https://github.com/vinil-v/cyclecloud-hybrid-hpc-lab)
+### Lab 2 Video Tutorial  
+**Simulating an On-Prem Slurm HPC Cluster in Azure**
+
+[![Watch the video](https://img.youtube.com/vi/X5DwMk1zLGU/0.jpg)](https://www.youtube.com/watch?v=X5DwMk1zLGU)
 
 Upon completing Lab 2, you will have an operational on-premises Slurm environment ready for integration with Azure CycleCloud in subsequent Lab.
 
@@ -500,7 +503,11 @@ In the CycleCloud User Interface:
 
    This ensures on-premises nodes remain part of the Slurm configuration.
 
-**Lab 3 Video Tutorial**: [Hybrid Integration Configuration](https://github.com/vinil-v/cyclecloud-hybrid-hpc-lab)
+### Lab 3 Video Tutorial  
+**Integrate On-Prem Slurm with Azure CycleCloud for Bursting**
+
+[![Watch the video](https://img.youtube.com/vi/qoyLRuccoto/maxresdefault.jpg)](https://www.youtube.com/watch?v=qoyLRuccoto)
+
 
 Upon completing Lab 3, your Slurm environment will be fully hybrid-enabled, with CycleCloud ready to provision compute capacity dynamically in response to scheduler demand. This integration establishes the foundation for testing live bursting behavior in the final Lab exercise.
 
@@ -633,7 +640,9 @@ This final Lab validates the complete hybrid HPC workflow by observing Slurm clo
 
 6. **Verify Output Files**: After job completion, review generated output in the job directory to confirm successful execution.
 
-**Lab 4 Video Tutorial**: [Cloud Bursting Validation](https://github.com/vinil-v/cyclecloud-hybrid-hpc-lab)
+### Lab 4 Video Tutorial  
+**Cloud Bursting Validation**
+[![Watch the video](https://img.youtube.com/vi/GTfkRo4YMNk/maxresdefault.jpg)](https://www.youtube.com/watch?v=GTfkRo4YMNk)
 
 Completing Lab 4 confirms that your hybrid HPC environment is fully operational and capable of scaling dynamically using Azure-based cloud bursting.
 
