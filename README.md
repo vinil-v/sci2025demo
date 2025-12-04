@@ -330,7 +330,8 @@ At this point, the standalone Slurm cluster running in Azure has been successful
 ### Lab 2 Video Tutorial  
 **Simulating an On-Prem Slurm HPC Cluster in Azure**
 
-[![Watch the video](https://img.youtube.com/vi/X5DwMk1zLGU/0.jpg)](https://www.youtube.com/watch?v=X5DwMk1zLGU)
+[![Lab 2: Build On-Prem Slurm Cluster](https://img.youtube.com/vi/X5DwMk1zLGU/maxresdefault.jpg)](https://youtu.be/X5DwMk1zLGU)
+
 
 Upon completing Lab 2, you will have an operational on-premises Slurm environment ready for integration with Azure CycleCloud in subsequent Lab.
 
