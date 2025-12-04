@@ -662,9 +662,11 @@ The hybrid approach presented here enables organizations to maximize their HPC c
 ## Additional Resources
 
 - [Azure CycleCloud Documentation](https://learn.microsoft.com/en-us/azure/cyclecloud/)
+- [Azure CycleCloud Workspace for Slurm](https://learn.microsoft.com/en-us/azure/cyclecloud/overview-ccws?view=cyclecloud-8)
 - [Slurm Workload Manager Documentation](https://slurm.schedmd.com/documentation.html)
 - [Azure HPC Documentation](https://learn.microsoft.com/en-us/azure/architecture/topics/high-performance-computing/)
-- [Lab repo](https://github.com/vinil-v/cyclecloud-hybrid-hpc-lab)
+- [Scripts repository](https://github.com/vinil-v/cyclecloud-hybrid-hpc-lab)
+
 
 ## Support and Contributions
 
