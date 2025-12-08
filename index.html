@@ -933,8 +933,122 @@ onprem       up   infinite      1   idle compute1</code></pre>
                                 <li><strong>Shared NFS Mount Configuration</strong>: Establish shared filesystem accessible to both on-premises and cloud nodes. This may be hosted on the on-premises scheduler or implemented using Azure NetApp Files. Shared storage ensures consistent access to home directories, configuration files, and job scripts</li>
                                 <li><strong>CycleCloud Connection Script Execution</strong>: Execute the CycleCloud-provided integration script on the on-premises Slurm head node. The script updates slurm.conf with cloud-specific configurations, enabling the controller to recognize and manage cloud bursting partitions. After this step, the scheduler becomes fully cloud-aware</li>
                             </ol>
+
+                            <h4>Step-by-Step Implementation</h4>
+
+                            <h5>1. Template Preparation</h5>
                             
-                            <!-- Continue with the rest of Lab 3 content... -->
+                            <p>First, prepare the Slurm headless template for deployment:</p>
+                            
+                            <ol>
+                                <li><strong>Navigate to cyclecloud configuration directory</strong> on your development machine:</li>
+                            </ol>
+
+                            <div class="code-header">
+                                <span>bash</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash">cd cyclecloud-hybrid-hpc-lab/cyclecloud/</code></pre>
+
+                            <ol start="2">
+                                <li><strong>Prepare the Slurm template</strong>:</li>
+                            </ol>
+
+                            <div class="code-header">
+                                <span>bash</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash">sh 01_prep_cyclecloud-slurm_template.sh</code></pre>
+
+                            <ol start="3">
+                                <li><strong>Provide configuration parameters</strong>:</li>
+                            </ol>
+
+                            <div class="code-header">
+                                <span>output</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code>Enter Cluster Name: demo
+Enter the Slurm version installed in the onprem (24.05.4-2): 24.05.4-2
+Enter the NFSServer IP Address (This is the IP of the scheduler node): 10.211.0.X</code></pre>
+
+                            <h5>2. Deploy CycleCloud Cluster</h5>
+
+                            <p>Deploy the headless Slurm cluster in CycleCloud:</p>
+
+                            <div class="code-header">
+                                <span>bash</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash">sh 02_cyclecloud_build_cluster.sh</code></pre>
+
+                            <p>The script will output cluster details and provide the connection command for integration.</p>
+
+                            <h5>3. Integrate On-Premises Scheduler with CycleCloud</h5>
+
+                            <p>On the on-premises scheduler VM, execute the CycleCloud integration script:</p>
+
+                            <ol>
+                                <li><strong>Navigate to the scheduler directory</strong>:</li>
+                            </ol>
+
+                            <div class="code-header">
+                                <span>bash</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash">cd cyclecloud-hybrid-hpc-lab/scheduler/</code></pre>
+
+                            <ol start="2">
+                                <li><strong>Execute the CycleCloud integrator script</strong>:</li>
+                            </ol>
+
+                            <div class="code-header">
+                                <span>bash</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash">sh 02_cyclecloud-integrator.sh</code></pre>
+
+                            <ol start="3">
+                                <li><strong>Provide the connection command</strong> (obtained from the previous step):</li>
+                            </ol>
+
+                            <div class="code-header">
+                                <span>output</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code>Enter the connect command from cyclecloud cluster: /opt/cycle/slurm/sbin/azslurm connect demo-cluster --url https://xxx.yyy.zzz.aaa --cluster demo</code></pre>
+
+                            <h5>4. Restart Slurm Services</h5>
+
+                            <p>After integration, restart Slurm services to apply the new configuration:</p>
+
+                            <div class="code-header">
+                                <span>bash</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash">systemctl restart slurmctld.service</code></pre>
+
+                            <h5>5. Verify Integration</h5>
+
+                            <p>Confirm that the cloud partition is now available:</p>
+
+                            <div class="code-header">
+                                <span>bash</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash">sinfo</code></pre>
+
+                            <p>Expected output showing both on-premises and cloud partitions:</p>
+
+                            <div class="code-header">
+                                <span>output</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code>PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+onprem       up   infinite      1   idle compute1
+cloud*       up   infinite      0    n/a</code></pre>
+
+                            <p>The cloud partition initially shows 0 nodes, which is expected. Nodes will be provisioned dynamically when jobs are submitted to this partition.</p>
                             
                             <h4>Lab 3 Video Tutorial<br />
                             <strong>Integrate On-Prem Slurm with Azure CycleCloud for Bursting</strong></h4>
@@ -949,7 +1063,179 @@ onprem       up   infinite      1   idle compute1</code></pre>
                             
                             <p>This final Lab validates the complete hybrid HPC workflow by observing Slurm cloud bursting in real-time. With the on-premises Slurm environment integrated into Azure CycleCloud, the scheduler can automatically provision cloud compute nodes when local capacity is fully utilized. This exercise demonstrates the full lifecycle of bursting—from idle cloud nodes to automated provisioning, job execution, and eventual deallocation.</p>
                             
-                            <!-- Continue with Lab 4 content... -->
+                            <h4>Cloud Bursting Validation Process</h4>
+
+                            <p>The following steps demonstrate how jobs automatically burst into cloud resources when on-premises capacity is exhausted:</p>
+
+                            <h5>1. Verify Current Cluster State</h5>
+
+                            <p>First, check the current state of both partitions:</p>
+
+                            <div class="code-header">
+                                <span>bash</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash">sinfo</code></pre>
+
+                            <p>Expected output:</p>
+
+                            <div class="code-header">
+                                <span>output</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code>PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+onprem       up   infinite      1   idle compute1
+cloud*       up   infinite      0    n/a</code></pre>
+
+                            <h5>2. Saturate On-Premises Capacity</h5>
+
+                            <p>Submit jobs to fully utilize the on-premises compute node:</p>
+
+                            <div class="code-header">
+                                <span>bash</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash"># Navigate to test directory
+cd /shared/cyclecloud-hybrid-hpc-lab/test/
+
+# Submit multiple jobs to fill on-premises capacity
+sh onpremjob.sh</code></pre>
+
+                            <p>The script will submit multiple sleep jobs to consume all available slots on the on-premises node.</p>
+
+                            <h5>3. Submit Jobs to Trigger Cloud Bursting</h5>
+
+                            <p>With on-premises capacity saturated, submit additional jobs that will trigger cloud provisioning:</p>
+
+                            <div class="code-header">
+                                <span>bash</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash"># Submit jobs that will burst to cloud
+sh cloudjob.sh</code></pre>
+
+                            <h5>4. Monitor Job Queue and Node Provisioning</h5>
+
+                            <p>Monitor the job queue to observe bursting behavior:</p>
+
+                            <div class="code-header">
+                                <span>bash</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash"># Check job queue status
+squeue
+
+# Monitor partition states
+sinfo</code></pre>
+
+                            <p>You should observe:</p>
+                            <ul>
+                                <li>Jobs running on the on-premises node (compute1)</li>
+                                <li>Jobs pending in the cloud partition</li>
+                                <li>New cloud nodes being provisioned</li>
+                            </ul>
+
+                            <h5>5. Real-Time Monitoring</h5>
+
+                            <p>Use these commands to monitor the bursting process in real-time:</p>
+
+                            <div class="code-header">
+                                <span>bash</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash"># Watch job queue continuously
+watch -n 5 squeue
+
+# In another terminal, watch partition status
+watch -n 10 sinfo</code></pre>
+
+                            <h5>6. Observe Cloud Node Lifecycle</h5>
+
+                            <p>As the cloud bursting progresses, you'll observe the following stages:</p>
+
+                            <ol>
+                                <li><strong>Node Provisioning</strong>: Azure VMs being created and configured</li>
+                                <li><strong>Node Registration</strong>: New nodes joining the Slurm cluster</li>
+                                <li><strong>Job Execution</strong>: Pending jobs starting on cloud nodes</li>
+                                <li><strong>Job Completion</strong>: Jobs finishing and nodes becoming idle</li>
+                                <li><strong>Node Decommissioning</strong>: Idle cloud nodes automatically terminated</li>
+                            </ol>
+
+                            <h5>7. Validate Job Results</h5>
+
+                            <p>Check job output files to confirm successful execution across both environments:</p>
+
+                            <div class="code-header">
+                                <span>bash</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash"># Check job output files
+ls -la slurm-*.out
+
+# View a sample output file
+cat slurm-[JOB_ID].out</code></pre>
+
+                            <h5>8. Monitor CycleCloud Activity</h5>
+
+                            <p>You can also monitor the activity from the CycleCloud web interface:</p>
+                            
+                            <ol>
+                                <li>Navigate to your CycleCloud Workspace portal</li>
+                                <li>Select your cluster (demo)</li>
+                                <li>Monitor the "Activity" tab for node provisioning events</li>
+                                <li>Check the "Nodes" tab to see active cloud compute instances</li>
+                            </ol>
+
+                            <h5>9. Cost Monitoring</h5>
+
+                            <p>Track the cost efficiency of cloud bursting by monitoring:</p>
+                            
+                            <ul>
+                                <li>Node uptime vs. job execution time</li>
+                                <li>Automatic scale-down behavior</li>
+                                <li>Azure consumption costs in the Azure portal</li>
+                            </ul>
+
+                            <h5>10. Clean Up and Validation</h5>
+
+                            <p>After observing the complete bursting cycle:</p>
+
+                            <div class="code-header">
+                                <span>bash</span>
+                                <button class="copy-button" onclick="copyCode(this)">Copy</button>
+                            </div>
+                            <pre><code class="language-bash"># Cancel any remaining jobs if needed
+scancel --user=$(whoami)
+
+# Verify all cloud nodes are eventually terminated
+sinfo
+
+# Check final cluster state
+squeue</code></pre>
+
+                            <h4>Expected Bursting Behavior</h4>
+
+                            <p>During successful cloud bursting, you should observe:</p>
+
+                            <ul>
+                                <li><strong>Automatic Triggering</strong>: Cloud nodes provisioned only when on-premises capacity is full</li>
+                                <li><strong>Dynamic Scaling</strong>: Number of cloud nodes matches pending job requirements</li>
+                                <li><strong>Job Distribution</strong>: Jobs executing across both on-premises and cloud partitions</li>
+                                <li><strong>Automatic Cleanup</strong>: Cloud nodes terminated after jobs complete and idle timeout expires</li>
+                                <li><strong>Cost Efficiency</strong>: Minimal idle time on cloud resources</li>
+                            </ul>
+
+                            <h4>Troubleshooting Common Issues</h4>
+
+                            <p>If cloud bursting doesn't work as expected:</p>
+
+                            <ol>
+                                <li><strong>Check Slurm Logs</strong>: <code>tail -f /var/log/slurmctld.log</code></li>
+                                <li><strong>Verify CycleCloud Connection</strong>: Ensure the azslurm daemon is running</li>
+                                <li><strong>Review Network Connectivity</strong>: Confirm VNet peering and DNS resolution</li>
+                                <li><strong>Validate Shared Storage</strong>: Ensure NFS mounts are accessible from cloud nodes</li>
+                                <li><strong>Check CycleCloud Cluster Status</strong>: Verify the cluster is in "Started" state</li>
+                            </ol>
                             
                             <h4>Lab 4 Video Tutorial<br />
                             <strong>Cloud Bursting Validation</strong></h4>
