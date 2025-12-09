@@ -636,6 +636,7 @@ This final Lab validates the complete hybrid HPC workflow by observing Slurm clo
    hpc*         up   infinite      2   mix~  demo-hpc-[1-2]
    hpc*         up   infinite      4  idle~  demo-hpc-[3-6]
    htc          up   infinite     50  idle~  demo-htc-[1-50]
+   onprem       up   infinite      1   idle  compute1
    ```
 
    You can also observe the cloud node provisioning process from the CycleCloud Web UI.
